@@ -1,0 +1,195 @@
+-- class 1 notes
+-- where tell us about to filter the data
+-- * means to show all column of a table
+-- we can use multiple column in a table 
+SELECT current_user;
+show databases; -- will show  how many databases we have
+use sakila;  -- its a databases whom we work on
+show tables;  --  show  the tables in   the  database sakila
+select * from  customer; -- use to access the data of customer * means all column
+select customer_id ,first_name from customer ; -- we can also use two column at a time
+select * from payment; -- * means all column of a table payment
+select  payment_id , amount from payment ; --  column access
+select *  from customer; -- all column of a customer
+select  customer_id , first_name,customer_id+10  from customer ;  -- we can also perform operations but it doesnot chnge original
+select  customer_id , first_name,customer_id+10-1+6 from customer ;  -- perform operations 
+select customer_id ,  Customer_id,CUSTOMER_ID,CuStomer_id from CUStomer; -- caseinsensitive doesnot affect
+select * from customer where customer_id=4; -- filter the data  of column 4 
+select  customer_id , first_name  from customer where  customer_id =7;
+select   first_name  from customer where  customer_id =7;
+ select  customer_id   from customer where  first_name = 'MARIA';
+use sakila;
+select customer_id from customer where first_name ='LISA';
+-- class 2 notes about operators(between,in,and,or,not in,not between,like,>,<,etc)
+select * from customer where customer_id between 2 and 5; -- it shows 2 to 5 both inclusive 
+select * from customer where customer_id between 5 and 2;  -- between not work in decreasing order gives null
+select  * from  customer  where customer_id in (2,5) ; -- in used for specific vlaues gives 2 and 5 only
+select * from  customer  where first_name  in ('LISA','PATRICIA');
+select * from customer where first_name  between 'LISA' and 'PATRICIA' ; -- it shows name that starts with l,m,n,o,p
+select * from customer where customer_id  between 1 and 6 ;
+select * from customer where customer_id  between 6 and 1;
+select * from customer where customer_id =2 or customer_id>7 ;
+select * from customer where customer_id >=2; -- more than 2 means all above 2 or equal to
+select * from  customer  where  first_name = 'HELEN' or  customer_id between 2 and 5 ;
+-- it involves like 2,3,4,5 ,helen any one true it consider  
+select * from  customer  where  first_name = 'HELEN' or  customer_id between 13 and 15 ; 
+select * from  customer  where  first_name = 'HELEN' and  customer_id between 13 and 15 ; 
+-- it shows only 15 bcz and is there if two of the conditions is true
+select * from  customer  where  first_name = 'HELEN' and  customer_id in (13,14,15,16);
+-- if it is persent in 13,14,15,16 then it consider otherwise not
+select * from  customer  where  first_name = 'HELEN' and  store_id=1; -- bcz it is in 1 that why it shows 
+select * from customer  where store_id=2 and store_id=5; -- it one column you cannot put two values
+select * from customer where  first_name ='PATRICIA'or 
+store_id=2 and store_id=5;-- and has higher priority but in one row two id cannot store then check patricia type and gives null values
+select  * from customer where   customer_id >=6 or (customer_id<2 and first_name ='PATRICIA');-- and has higher priority
+select  * from customer where   customer_id >=2 or( customer_id<6 and first_name ='PATRICIA');
+select  * from customer where   customer_id >3 or customer_id>2 and first_name ='PATRICIA';
+select  * from customer where   customer_id >=2 or (customer_id>2 and first_name ='PATRICIA');
+select  * from customer where   customer_id >=2 or customer_id<6 and first_name ='PATRICIA';
+select  * from customer where  customer_id =7 or (customer_id=6 and first_name ='MARIA');
+ select  * from customer where  customer_id=6 and first_name ='MARIA';-- and both must be true otherise null
+select  * from customer where customer_id =8 or customer_id=6 and first_name ='MARIA';
+ 
+ select  * from customer where  (customer_id =7 or customer_id=6) and  first_name ='MARIA';-- bracket first
+select * from customer where customer_id  not between 2 and 5; -- not include 2 nd 5
+select * from customer where customer_id not in (2,5) ;
+select * from customer  where first_name like 'B%' ; -- here b postition fixed on first and end m kitne bhi
+select * from customer  where first_name like '%oy_' ;-- end 3 postion fixed oy_,usse phle kitne bhi
+select * from customer  where first_name like 'jo_%' ;-- first_three poition fixed then 3rd pr koi bhi or % MEANS KTINE BHI AA JAO
+select * from customer  where first_name like 'o%' ;
+select * from customer  where first_name  not like 'A%' ;
+select first_name ,last_name,concat (first_name,last_name) from customer;-- no space btw fist_name or last_name
+select first_name ,last_name,concat (first_name,' ',last_name) from customer;
+select  first_name ,last_name,concat (first_name,' #',last_name) -- ye dekhe mt 
+from customer;
+select	* from customer 
+where concat (first_name,' ',last_name)='MARY SMITH';
+select	* from customer 
+where concat (first_name,' ',last_name)='MARY SMITH';
+
+-- , length(first_name), char_length(first_name) from customer;
+-- select length(''), char_length('');
+-- concat
+-- select first_name
+-- from customer;
+use sakila;
+ select first_name, concat_ws(' <- >', 'MRS', first_name, 'Sharma'); -- seperator for each not need to write multiple values
+-- substr => index start with 1 upto end if no condition applied
+select first_name, email, substr(first_name,2) from customer;
+
+select first_name, email, substr(email,-5) from customer;
+ select first_name, email, substr(email,-8,-5) from customer; -- doubt 
+ -- if any character is not available on thet position  it  give   us vacant column.
+ select first_name, email, substr(email,2,2) from customer;
+  select first_name, email, substr(email,2,4) from customer; -- starts with 2 and upto 4
+ select first_name, email, substr(email,3,1) from customer; -- only one 1 get
+select first_name, email, substr(email,3) from customer;
+select first_name, email, substr(first_name,3) from customer;
+select first_name, instr(first_name, 'A') from customer; -- to get the position
+select email, instr(email, '@') from customer;-- take the length using ister
+select email, substr( email, 1, instr(email, '@')-1)  from customer;
+select email, substr( email, 1, instr(email, '@') -1) from customer;
+select * from  customer;
+select first_name, replace(first_name, 'A', 'Z') from customer;
+select char_length('raj ');
+select char_length( trim(' raj') ); 
+select char_length( trim(' raj ') );
+select char_length( trim(' raj') );
+select char_length( trim(' raj ') );
+select first_name, lpad( first_name,6,'$') from customer; -- if 6 values are there its ok otherwise it adds symbol
+select first_name, rpad( first_name,6,'$') from customer;
+
+
+-- class 3 notes date function
+
+-- yyyyy-mm-dd
+select current_date() ; -- sow current date
+select current_time() ;
+select current_timestamp(),now() ;
+select payment_id, payment_date , now() from payment; -- now means present
+select payment_id, payment_date , adddate(payment_date,5) from payment; -- adddate to means kch dedo
+-- yyyyy-mm-dd
+select current_date() ;
+select current_time() ;
+select current_timestamp(),now() ;
+select payment_id, payment_date , now() from payment;
+select payment_id, payment_date , adddate(payment_date,5) from payment;
+select payment_id, payment_date , adddate(payment_date,interval 2 month) from payment;
+select payment_id, payment_date , adddate(payment_date,interval 2  hour) from payment;
+select payment_id, payment_date , adddate(payment_date,interval -2  hour) from payment;
+select  payment_id ,datediff( now(),payment_date) from payment;
+
+-- select payment_id, payment_date ,datediff( now(),adddate(payment_date,interval -2  hour) from payment;
+SELECT payment_id, payment_date,DATEDIFF(NOW(), ADDDATE(payment_date, 30  )) AS diff_days FROM payment;
+SELECT 
+    payment_id, 
+    payment_date,
+    DATEDIFF(NOW(), ADDDATE(payment_date, 30  )) AS harshu
+FROM payment;
+-- month function
+select payment_id, payment_date, month( payment_date) -- month extract
+from payment;
+select payment_id, payment_date, month( payment_date)
+from payment where month(payment_date)=2;
+select payment_id, payment_date, month( payment_date)
+from payment where month( payment_date)=2;
+select payment_id, payment_date, year( payment_date)from payment where year( payment_date)=2006;
+select  payment_date ,extract(quarter from payment_date) from payment;
+select payment_date ,month(payment_date) , concat('current month is :',month(payment_date) )from payment;
+select payment_date, concat('current month is:',month(payment_date) )from payment;
+select first_name  ,last_name  ,concat_ws('*',first_name ,last_name,' vardhan','sharma') from customer ;
+select payment_date,date_format( payment_date, 'current year is %h')from payment;
+  select date_format( payment_date, 'current year is %y')from payment;
+  
+select 43.76;
+select 43.26, round(43.26), round(43.26,1); -- 1 means point k baad wla ,-1 means point se phele wla
+select 43.26, round(43.76,-1), round(43.26,1);
+select 43.286, round(43.286,2), round(43.286,-2);
+select 43.286, round(43.286), round(43.283,2);
+select 43.286, round(43.286), round(43.236,1);
+select 43.286, round(43.286), round(443.786,-2);
+select 3.286, round(443.286,-3), round(3.286,-1);
+select 7.286, round(7.286), round(7.286,-1);
+select 53.286, round(53.286), round(53.286,-2);
+select 53.286, round(53.286), round(43.286,-2);
+select 153.286, round(153.286), round(153.286,-3);
+select 753.286, round(753.286,-3), round(753.286,-3);
+select 753.286, round(753.286), round(7453.286,-3);
+select 34.647, round (2763.647, -3);
+
+select round (345.68592), truncate(345.6859,2); -- truncate only extract the value
+select round (345.68592), truncate(345.6859,2);
+select round (345.68592), truncate(345.6859,3);
+select round (345.68592), truncate(345.6829,3);
+select round (345.68592), truncate(345.6859,-2);
+select round (345.6859,2), truncate(345.6859,2);
+
+select mod(10,3); -- it gives the remainder
+select ceil(5.000000000006), floor(4.999999999); -- ceil gives the upper value or floor gives the lower value
+# 234 => 2*100
+# 3*10 + 4*1
+# one place => tenth mai convert hogi => hundrrea place mai convert
+
+select ceil(.00000000000), floor(5.999999999);
+select ceil(5.000000000006), floor(5.999999999);
+
+-- class 4 aggregate function means calculation on data
+-- calculation on your data==> means aggregate function -- for check how mant times it repeats
+-- with --order by-- the order is in increasing order chote se badi
+select * from employeey order by department;   -- on which want to perform
+ -- use desc from decreasing bade se choti
+ select * from employeey order by salary desc; -- on individual
+ -- select individual
+ select salary,hire_date,year(hire_date) from employeey order by year(hire_date),salary desc;
+ 
+ --    
+select distinct department from employeey; -- shows unique department means remove the duplicate(names)alter
+select distinct department,salary from employeey; -- if they have same value they consider as unique and gives one values
+-- calculation on your data==> means aggregate function -- for check how mant times it repeats
+select count(department) from employeey; -- it count the total rows and it doesnot count the null value but string count(it take space and consume)
+select count(first_name) from employeey; -- count and it shows the output after count the rows
+select count(department),count(distinct(department)) from employeey; -- disticnt it takes unique
+select count(salary) from employeey;  -- 23 rows 
+-- if u are applying any aggregate fucntion you cannot use any other column directly
+select sum(salary),count(salary),avg(salary),max(salary),min(salary) from employeey;                         
+-- we can use distinct with everyone either with count,sum
